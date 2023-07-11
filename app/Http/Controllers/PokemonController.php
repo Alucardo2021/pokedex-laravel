@@ -44,7 +44,6 @@ class PokemonController extends Controller
 
     public function borrarMovimiento(Request $request)
     {
-
         $validated = $request->validate([
             'pokeID' => 'required|exists:Pokemon,PokemonID',
             'moveID' => 'required|exists:Movimiento,MovimientoID'
@@ -60,6 +59,39 @@ class PokemonController extends Controller
 
         return redirect("/pokemon/".$pokeID);
 
+
+    }
+
+    public function borrarMovimientoConAjax(Request $request)
+    {
+        $validated = $request->validate([
+            'pokeID' => 'required|exists:Pokemon,PokemonID',
+            'moveID' => 'required|exists:Movimiento,MovimientoID'
+        ]);
+
+        $pokeID = $validated['pokeID'] ?? null;
+        $moveID = $validated['moveID'] ?? null;
+
+        $movimientoPokemon = PokemonMovimiento::where("PokemonID", $pokeID)
+            ->where("MovimientoID", $moveID)->first();
+
+        $movimientoPokemon->delete();
+
+        return 1;
+
+
+    }
+
+    public function getMovimientos(Request $request) {
+
+        $validated = $request->validate([
+            'pokeID' => 'required|exists:Pokemon,PokemonID',
+        ]);
+
+        /* $pokemonMovientos = Pokemon::find($validated['pokeID'])->movimientos; */
+         $pokemonMovientos = Pokemon::where('PokemonID', $validated['pokeID'])->with('movimientos', 'movimientos.tipo')->first()->movimientos; 
+
+        return response()->json($pokemonMovientos);
 
     }
 }
