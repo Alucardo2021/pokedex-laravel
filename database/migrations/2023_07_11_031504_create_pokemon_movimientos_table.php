@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('PokemonHabilidad', function (Blueprint $table) {
-            $table->bigIncrements('PokemonHabilidadID');
-            $table->unsignedBigInteger('HabilidadID');
+        Schema::create('PokemonMovimiento', function (Blueprint $table) {
+            $table->bigIncrements('PokemonMovimientoID');
+            $table->unsignedBigInteger('MovimientoID');
             $table->unsignedBigInteger('PokemonID');
             $table->timestamps();
-            $table->foreign('HabilidadID')->references('HabilidadID')->on('Habilidad');
+            $table->foreign('MovimientoID')->references('MovimientoID')->on('Movimiento');
             $table->foreign('PokemonID')->references('PokemonID')->on('Pokemon');
             $table->softDeletes();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('PokemonHabilidad');
+        Schema::dropIfExists('PokemonMovimiento');
     }
 };

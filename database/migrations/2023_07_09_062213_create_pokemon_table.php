@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('Peso');
             $table->string('Altura');
             $table->string('SpriteComun');
-            $table->string('SpriteShiny');
+            $table->string('SpriteShiny')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

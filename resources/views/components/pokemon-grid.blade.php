@@ -22,5 +22,9 @@
         @endforeach
 
       </div>
+
+        <div class="w-100 text-center">
+            {{ $pokemons->links() }}
+        </div>
     </div>
 </div>

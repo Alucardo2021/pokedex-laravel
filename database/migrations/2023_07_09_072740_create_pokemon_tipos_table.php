@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('TipoID')->references('TipoID')->on('Tipo');
             $table->foreign('PokemonID')->references('PokemonID')->on('Pokemon');
+            $table->softDeletes();
         });
     }
 

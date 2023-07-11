@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Habilidad extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = "Habilidad";
-    protected $primary_key = "HabilidadID";
+    protected $primaryKey = "HabilidadID";
 }

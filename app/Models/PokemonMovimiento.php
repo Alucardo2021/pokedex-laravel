@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PokemonHabilidad extends Model
+class PokemonMovimiento extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = "PokemonHabilidad";
-    protected $primaryKey = "PokemonHabilidadID";
+    protected $table = "PokemonMovimiento";
+    protected $primaryKey = "PokemonMovimientoID";
 }

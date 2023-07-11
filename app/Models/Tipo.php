@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tipo extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = "Tipo";
-    protected $primary_key = "TipoID";
+    protected $primaryKey = "TipoID";
+
 
     public function pokemons(){
-        return $this->hasMany(PokemonTipo::class);
+        return $this->belongsToMany('App\Models\Pokemon', 'PokemonTipo','TipoID' , 'PokemonID');
     }
 
 }

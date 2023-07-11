@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Habilidad', function (Blueprint $table) {
-            $table->bigIncrements('HabilidadID');
+        Schema::create('Movimiento', function (Blueprint $table) {
+            $table->bigIncrements('MovimientoID');
             $table->string('Nombre');
             $table->text('Descripcion')->nullable();
+            $table->unsignedBigInteger('TipoID');
+
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('TipoID')->references('TipoID')->on('Tipo');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Habilidad');
+        Schema::dropIfExists('Movimiento');
     }
 };

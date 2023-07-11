@@ -15,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PokemonController::class, 'index']);
-Route::get('/pokemon/{pokemon:id}', [PokemonController::class, 'show']);
+Route::get('/pokemon/{pokemon:PokemonID}', [PokemonController::class, 'show']);
 Route::get('/crud', [PokemonController::class, 'crud']);
+
+
+Route::post('/borrar', [PokemonController::class, 'borrarMovimiento']);
+
+
 
 
 
