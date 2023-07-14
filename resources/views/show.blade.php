@@ -107,9 +107,9 @@
                                 success: function(response) {
 
                                     $(`#modal-eliminar-movimiento`).modal('toggle');
-                
+
                                     $(`#tabla-pokemon-${pokeID} tr`).remove();
-                
+
                                     response.forEach(element => {
                                         $(`#tabla-pokemon-${pokeID}`).append(
                                             `<tr>
@@ -137,8 +137,72 @@
                             console.log(e)
                         }
                     });
-                
-                    
+
+
+                });
+
+                $('body').on('click', '.btn-borrar',function() {
+                    pokeID = $(this).data('pokeid');
+                    moveID = $(this).data('moveid');
+                });
+
+                $('body').on('click', '.borar-movimiento', function (e){
+                    let url = `/pokemon/${pokeID}/movimientos`;
+
+                    $.ajax({
+                        url: "/borrar-con-ajax",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            'pokeID': pokeID,
+                            'moveID': moveID,
+                        },
+                        dataType: "json",
+                        method: "POST",
+                        success: function(response) {
+                            //Acciones si success
+                            $.ajax({
+                                url: url,
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    'pokeID': pokeID,
+                                },
+                                dataType: "json",
+                                method: "GET",
+                                success: function(response) {
+
+                                    $(`#modal-eliminar-movimiento`).modal('toggle');
+
+                                    $(`#tabla-pokemon-${pokeID} tr`).remove();
+
+                                    response.forEach(element => {
+                                        $(`#tabla-pokemon-${pokeID}`).append(
+                                            `<tr>
+                                                <td>${element.MovimientoID}</td>
+                                                <td>${element.Nombre}</td><td>${element.Descripcion}</td>
+                                                <td>${element.tipo.Nombre}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-secundary btn-borrar" data-bs-toggle="modal" data-bs-target="#modal-eliminar-movimiento" data-pokeID='${ element.pivot.PokemonID }' data-moveID='${ element.MovimientoID}'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>`);
+                                    });
+                                },
+                                error: function (e) {
+                                    //Acciones si error
+                                    console.log(e)
+                                }
+                            });
+                        },
+                        error: function (e) {
+                            //Acciones si error
+                            console.log(e)
+                        }
+                    });
+
+
                 });
             });
 
