@@ -25,8 +25,22 @@ class PokemonController extends Controller
 
     public function show(Pokemon $pokemon)
     {
+        $moveSI = $pokemon->movimientos;
+        $moveNoArray = [];
+
+        foreach (Movimiento::all() as $move) {
+            if($moveSI->where('MovimientoID', $move->MovimientoID)->first() == null){
+                array_push($moveNoArray, $move);
+            }
+
+        }
+
+
+        $moveNO = collect($moveNoArray);
+
         return view('show', [
-            'movimientos' => $pokemon->movimientos,
+            'movimientos' => $moveSI,
+            'movimientosNo' => $moveNO,
             'pokemon' => $pokemon,
             'tipos' => Tipo::all()
 
@@ -62,6 +76,29 @@ class PokemonController extends Controller
 
     }
 
+    public function agregarMovimientoConAjax(Request $request)
+    {
+        $validated = $request->validate([
+            'pokeID' => 'required|exists:Pokemon,PokemonID',
+            'moveID' => 'required|exists:Movimiento,MovimientoID'
+        ]);
+
+        $pokeID = $validated['pokeID'] ?? null;
+        $moveID = $validated['moveID'] ?? null;
+
+        $movimientoPokemon = new PokemonMovimiento();
+        $movimientoPokemon->PokemonID = $pokeID;
+        $movimientoPokemon->MovimientoID = $moveID;
+
+        $movimientoPokemon->save();
+
+        return 1;
+
+
+    }
+
+
+
     public function borrarMovimientoConAjax(Request $request)
     {
         $validated = $request->validate([
@@ -89,7 +126,10 @@ class PokemonController extends Controller
         ]);
 
         /* $pokemonMovientos = Pokemon::find($validated['pokeID'])->movimientos; */
-         $pokemonMovientos = Pokemon::where('PokemonID', $validated['pokeID'])->with('movimientos', 'movimientos.tipo')->first()->movimientos; 
+        $pokemonMovientos = Pokemon::where('PokemonID', $validated['pokeID'])
+                                    ->with('movimientos', 'movimientos.tipo')
+                                        ->first()->movimientos;
+
 
         return response()->json($pokemonMovientos);
 

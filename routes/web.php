@@ -21,6 +21,7 @@ Route::get('/crud', [PokemonController::class, 'crud']);
 
 Route::post('/borrar', [PokemonController::class, 'borrarMovimiento']);
 Route::post('/borrar-con-ajax', [PokemonController::class, 'borrarMovimientoConAjax']);
+Route::post('/agregar-con-ajax', [PokemonController::class, 'agregarMovimientoConAjax']);
 
 Route::get('/pokemon/{id}/movimientos', [PokemonController::class, 'getMovimientos']);
 
