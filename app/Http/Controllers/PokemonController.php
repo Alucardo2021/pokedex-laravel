@@ -26,17 +26,7 @@ class PokemonController extends Controller
     public function show(Pokemon $pokemon)
     {
         $moveSI = $pokemon->movimientos;
-        $moveNoArray = [];
-
-        foreach (Movimiento::all() as $move) {
-            if($moveSI->where('MovimientoID', $move->MovimientoID)->first() == null){
-                array_push($moveNoArray, $move);
-            }
-
-        }
-
-
-        $moveNO = collect($moveNoArray);
+        $moveNO = Movimiento::whereNotIn('MovimientoID', $moveSI->pluck('MovimientoID'))->get();
 
         return view('show', [
             'movimientos' => $moveSI,
@@ -46,6 +36,8 @@ class PokemonController extends Controller
 
         ]);
     }
+
+
     public function crud()
     {
         return view('crud', [
